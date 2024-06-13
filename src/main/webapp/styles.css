@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    font-size: 19px; 
+}
+
+nav {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Align items with space between */
+    align-items: center; /* Vertically center items */
+    background-color: white;
+    overflow: hidden;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+nav img {
+    height: 40px; /* Adjust the height as needed */
+    margin-right: auto; /* Push logo to the left */
+}
+
+nav a {
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+
+.marquee-container {
+    background-color: #ffe67f ; /* Background color for the marquee */
+    padding: 10px; /* Add padding to the container */
+    margin-top: 30px ;
+}
+
+.marquee {
+    behavior: scroll; 
+    direction: right; 
+    margin-top: 10px; /* Adjust the margin to move the marquee down */
+    font-weight: bold; 
+}
+
+#right-corner {
+    margin-left: auto; /* Push to the right corner */
+}
+
+#right-corner a {
+  background-color: #ffe67f; /* Change background color */
+    color: black; /* Change text color */
+    padding: 20px 30px; /* Adjust padding to make buttons larger */
+    margin-left: 10px; /* Add margin between buttons */
+    border-radius: 5px; /* Add rounded corners */
+    font-weight: bold; 
+}

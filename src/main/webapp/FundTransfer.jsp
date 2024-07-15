@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recharge</title>
-    <link rel="stylesheet" type="text/css" href="stylesr.css">
+    <title>Fund Transfer</title>
+    <link rel="stylesheet" type="text/css" href="stylesfu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -23,22 +23,24 @@
 </nav>
 
 <div class="container">
-    <h2>Recharge</h2>
-    <div class="form-container">
-        <form action="RechargeController" method="post">
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" required><br><br>
-            <label for="provider">Service Provider:</label>
-            <select id="provider" name="provider">
-                <option value="Airtel">Airtel</option>
-                <option value="Idea">Idea</option>
-                <option value="Jio">Jio</option>
-            </select><br><br>
-            <input type="submit" value="Recharge" class="submit-button">
-        </form>
-    </div>
-</div>
+    <h1>Fund Transfer</h1>
+    <form action="FundController" method="post">
+        <div class="to">
+            Recipient Account: <input type="text" name="toAccount"><br>
+        </div>
+        <div class="to">
+            Recipient Name: <input type="text" name="recipientName"><br>
+        </div>
+        <div class="amount">
+            Amount: <input type="text" name="amount"><br>
+        </div>
+        <input type="submit" value="Transfer Funds" class="submit-button">
+    </form>
 
+    <c:if test="${not empty error}">
+        <p style="color: red;">${error}</p>
+    </c:if>
+</div>
 
 </body>
 </html>

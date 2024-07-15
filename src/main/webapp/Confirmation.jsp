@@ -8,7 +8,7 @@
         /* Basic CSS for layout */
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffe67f; /* Set background color */
+            background-color: #D8EFD3; /* Set background color */
             margin: 0; /* Remove default margin */
             padding: 0; /* Remove default padding */
         }
@@ -19,6 +19,7 @@
             padding: 20px; /* Add some padding */
             border-radius: 10px; /* Add rounded corners */
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            position: relative; /* Make the container relative for absolute positioning */
         }
         .confirmation-message {
             text-align: center;
@@ -36,6 +37,24 @@
         }
         th {
             background-color: #f2f2f2;
+        }
+        .dashboard-button {
+            position: absolute; /* Position the button absolutely */
+            top: 20px; /* Position the button 20px from the top */
+            right: 20px; /* Position the button 20px from the right */
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Add padding */
+            text-align: center; /* Center text */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Display as inline block */
+            font-size: 16px; /* Increase font size */
+            border-radius: 5px; /* Add rounded corners */
+            cursor: pointer; /* Add pointer cursor */
+        }
+        .dashboard-button:hover {
+            background-color: #45a049; /* Darker green on hover */
         }
     </style>
 </head>
@@ -60,7 +79,7 @@
         <td>₹<%= session.getAttribute("Amount") %></td>
     </tr>
 </table>
-
+    <a href="Dashboard.jsp" class="dashboard-button">Dashboard</a>
 </div>
 </body>
 </html>

@@ -5,6 +5,7 @@ import java.util.List;
 import web.login.model.Login;
 import web.login.model.Recharge;
 import web.login.model.Register;
+import web.login.model.Transaction;
 
 public interface RegisterDao {
 	
@@ -17,6 +18,10 @@ public interface RegisterDao {
 	int createRecharge(List<Recharge> relst);
 	boolean updateAccountBalance(float accountBalance, int AccountNumber);
 	Register retrieveUserByUsername(String username);
+    boolean transferFunds(int fromAccount, int toAccount, float amount);
+	float getAccountBalance(int accountNumber);
+
+
 	
 
 }

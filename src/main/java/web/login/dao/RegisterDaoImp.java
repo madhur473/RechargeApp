@@ -247,6 +247,103 @@ public class RegisterDaoImp implements RegisterDao {
 	    
 	    return lst;
 	}
-
 	
+	
+	public boolean transferFunds(int fromAccount, int toAccount, float amount) {
+        boolean success = false;
+        Connection con = null;
+        PreparedStatement pstate = null;
+        ResultSet result = null;
+
+        try {
+            con = DBConnection.myConnection();
+            con.setAutoCommit(false); // Start transaction
+
+            // Check sender's balance
+            pstate = con.prepareStatement("SELECT accBal FROM RechargeApp WHERE accNumber = ?");
+            pstate.setInt(1, fromAccount);
+            result = pstate.executeQuery();
+            if (!result.next()) {
+                return false; // Sender account does not exist
+            }
+            float fromBalance = result.getFloat("accBal");
+
+            if (fromBalance < amount) {
+                return false; // Insufficient funds
+            }
+
+            // Deduct from sender
+            pstate = con.prepareStatement("UPDATE RechargeApp SET accBal = accBal - ? WHERE accNumber = ?");
+            pstate.setFloat(1, amount);
+            pstate.setInt(2, fromAccount);
+            pstate.executeUpdate();
+
+            // Check recipient account
+            pstate = con.prepareStatement("SELECT accBal FROM RechargeApp WHERE accNumber = ?");
+            pstate.setInt(1, toAccount);
+            result = pstate.executeQuery();
+            if (!result.next()) {
+                con.rollback(); // Recipient account does not exist, rollback
+                return false;
+            }
+
+            // Add to recipient
+            pstate = con.prepareStatement("UPDATE RechargeApp SET accBal = accBal + ? WHERE accNumber = ?");
+            pstate.setFloat(1, amount);
+            pstate.setInt(2, toAccount);
+            pstate.executeUpdate();
+
+            con.commit(); // Commit transaction
+            success = true;
+        } catch (SQLException e) {
+            try {
+                if (con != null) con.rollback(); // Rollback on error
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (pstate != null) pstate.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return success;
+    }
+
+    @Override
+    public float getAccountBalance(int accountNumber) {
+        float balance = 0;
+        Connection con = null;
+        PreparedStatement pstate = null;
+        ResultSet result = null;
+
+        try {
+            con = DBConnection.myConnection();
+            pstate = con.prepareStatement("SELECT accBal FROM RechargeApp WHERE accNumber = ?");
+            pstate.setInt(1, accountNumber);
+            result = pstate.executeQuery();
+            if (result.next()) {
+                balance = result.getFloat("accBal");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (pstate != null) pstate.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return balance;
+    }
+
+ 	
 }

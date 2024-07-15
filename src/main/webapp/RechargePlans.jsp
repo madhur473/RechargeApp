@@ -4,77 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Recharge</title>
-    <style>
-        /* Basic CSS for layout */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffe67f;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 60%;
-            margin: 50px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-container {
-            text-align: center;
-        }
-        #balance {
-            float: right;
-            font-weight: bold;
-        }
-        label {
-            display: inline-block;
-            width: 150px;
-            text-align: right;
-        }
-        input[type="text"], select {
-            width: 200px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .plan-button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .plan-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="stylesro.css">
 </head>
 <body>
 <div class="container">

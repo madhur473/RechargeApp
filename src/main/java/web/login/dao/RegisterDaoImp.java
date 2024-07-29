@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
+import web.login.model.FundTransfer;
 import web.login.model.Login;
 import web.login.model.Recharge;
 import web.login.model.Register;
+import web.login.model.Transaction;
 
 public class RegisterDaoImp implements RegisterDao {
 	int i=0;
@@ -225,7 +227,7 @@ public class RegisterDaoImp implements RegisterDao {
 	    ResultSet result = null; // Initialize ResultSet
 	    
 	    try {
-	        PreparedStatement pstate = con.prepareStatement("SELECT * FROM bank");
+	        PreparedStatement pstate = con.prepareStatement("SELECT * FROM RechargeApp");
 	        result = pstate.executeQuery();
 	        
 	        while (result.next()) {
@@ -344,6 +346,87 @@ public class RegisterDaoImp implements RegisterDao {
 
         return balance;
     }
+    @Override
+    public List<FundTransfer> getFundTransferHistory(int accountNumber) {
+        List<FundTransfer> transferList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstate = null;
+        ResultSet result = null;
+
+        try {
+            con = DBConnection.myConnection();
+            // Ensure the SQL query includes columns for 'fromAccount', 'toAccount', and 'amount'
+            pstate = con.prepareStatement("SELECT fromAccount, toAccount, amount FROM FundTransfers WHERE fromAccount = ? OR toAccount = ? ORDER BY transferDate DESC");
+            pstate.setInt(1, accountNumber);
+            pstate.setInt(2, accountNumber);
+            result = pstate.executeQuery();
+
+            while (result.next()) {
+                transferList.add(new FundTransfer(
+                    result.getString("fromAccount"),
+                    result.getString("toAccount"),
+                    result.getDouble("amount")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (pstate != null) pstate.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return transferList;
+    }
+
+    @Override
+    public List<Recharge> getRechargeHistory(int accountNumber) {
+        List<Recharge> rechargeList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstate = null;
+        ResultSet result = null;
+
+        try {
+            con = DBConnection.myConnection();
+            // Ensure the SQL query includes the 'selectedPlan' column if it exists
+            pstate = con.prepareStatement("SELECT phoneNumber, provider, selectedPlan, planAmount FROM Recharges WHERE accountNumber = ? ORDER BY rechargeDate DESC");
+            pstate.setInt(1, accountNumber);
+            result = pstate.executeQuery();
+
+            while (result.next()) {
+                rechargeList.add(new Recharge(
+                    result.getString("phoneNumber"),
+                    result.getString("provider"),
+                    result.getString("selectedPlan"),
+                    result.getFloat("planAmount")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (pstate != null) pstate.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return rechargeList;
+    }
+
+	@Override
+	public List<Transaction> getTransactionHistory(int accountNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    
 
  	
 }

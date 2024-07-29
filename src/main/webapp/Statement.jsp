@@ -1,66 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Account Statement</title>
-<style>
-    body {
-        background-color: ;
-    }
-
-    table {
-        margin: 40px auto;
-        width: 80%;
-        border-collapse: collapse;
-    }
-
-    table, th, td {
-        border: 1px solid black;
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #D8EFD3;
-    }
-
-    h1 {
-        text-align: center;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statement</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-    <h1>Account Statement</h1>
+<nav class="navbar">
+    <img src="blackrock-logo-nav.svg" alt="Logo" class="logo">
+    <div class="account-info">
+        <div>Account Number: <%= session.getAttribute("AccountNumber") %></div>
+        <div>Username: <%= session.getAttribute("Username") %></div>
+        <div id="balance">Total Account Balance: ₹ <%= request.getSession().getAttribute("accountBalance") %> </div>
+    </div>
+    <form action="LogoutController" method="post" class="logout">
+        <button type="submit" class="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </form>
+</nav>
+
+<div class="container">
+    <h1>Transaction Statement</h1>
+    
+    <h2>Fund Transfers</h2>
     <table>
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Transaction Type</th>
+                <th>ID</th>
+                <th>From Account</th>
+                <th>To Account</th>
                 <th>Amount</th>
-                <th>Recipient/Sender</th>
-                <th>Balance</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="transaction" items="${transactionHistory}">
+            <c:forEach var="transfer" items="${fundTransfers}">
                 <tr>
-                    <td>${transaction.date}</td>
-                    <td>${transaction.type}</td>
-                    <td>${transaction.amount}</td>
-                    <td>${transaction.recipientOrSender}</td>
-                    <td>${transaction.balance}</td>
+                    <td>${transfer.id}</td>
+                    <td>${transfer.fromAccount}</td>
+                    <td>${transfer.toAccount}</td>
+                    <td>${transfer.amount}</td>
+                    <td>${transfer.transferDate}</td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    <c:if test="${not empty error}">
-        <p style="color: red; text-align: center;">${error}</p>
-    </c:if>
+
+    <h2>Recharges</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Phone Number</th>
+                <th>Provider</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="recharge" items="${recharges}">
+                <tr>
+                    <td>${recharge.id}</td>
+                    <td>${recharge.phoneNumber}</td>
+                    <td>${recharge.provider}</td>
+                    <td>${recharge.planAmount}</td>
+                    <td>${recharge.rechargeDate}</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

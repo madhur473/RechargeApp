@@ -356,7 +356,7 @@ public class RegisterDaoImp implements RegisterDao {
         try {
             con = DBConnection.myConnection();
             // Ensure the SQL query includes columns for 'fromAccount', 'toAccount', and 'amount'
-            pstate = con.prepareStatement("SELECT fromAccount, toAccount, amount FROM FundTransfers WHERE fromAccount = ? OR toAccount = ? ORDER BY transferDate DESC");
+            pstate = con.prepareStatement("SELECT fromAccount, toAccount, amount FROM  WHERE fromAccount = ? OR toAccount = ? ORDER BY transferDate DESC");
             pstate.setInt(1, accountNumber);
             pstate.setInt(2, accountNumber);
             result = pstate.executeQuery();

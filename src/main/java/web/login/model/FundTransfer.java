@@ -11,6 +11,10 @@ public class FundTransfer {
 		this.toAccount = toAccount;
 		this.amount = amount;
 	}
+	public String toString() {
+	    return "FundTransfer [fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount + "]";
+	}
+
 	public String getFromAccount() {
 		return fromAccount;
 	}

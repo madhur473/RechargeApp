@@ -24,14 +24,32 @@ public class StatementController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int accountNumber = (int) session.getAttribute("AccountNumber");
+        Integer accountNumber = (Integer) session.getAttribute("AccountNumber");
+
+        if (accountNumber == null) {
+            response.sendRedirect("Login.jsp"); // Redirect to login if not authenticated
+            return;
+        }
 
         RegisterDao dao = new RegisterDaoImp();
-        List<FundTransfer> fundTransfers = dao.getFundTransferHistory(accountNumber);
-        List<Recharge> recharges = dao.getRechargeHistory(accountNumber);
+        
+        try {
+            // Retrieve the fund transfer history
+            List<FundTransfer> fundTransfers = dao.getFundTransferHistory(accountNumber);
 
-        request.setAttribute("fundTransfers", fundTransfers);
-        request.setAttribute("recharges", recharges);
-        request.getRequestDispatcher("statement.jsp").forward(request, response);
+            // Retrieve the recharge history
+            List<Recharge> recharges = dao.getRechargeHistory(accountNumber);
+
+            // Set the retrieved data as request attributes
+            request.setAttribute("fundTransfers", fundTransfers);
+            request.setAttribute("recharges", recharges);
+
+            // Forward to the JSP page
+            request.getRequestDispatcher("Statement1.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace(); // Consider using a logging framework
+            request.setAttribute("errorMessage", "An error occurred while retrieving the statement. Please try again later.");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
     }
 }

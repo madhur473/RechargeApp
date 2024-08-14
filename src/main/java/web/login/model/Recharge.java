@@ -13,6 +13,10 @@ public class Recharge {
 		this.selectedPlan = selectedPlan;
 		this.planAmount = planAmount;
 	}
+	public String toString() {
+	    return "Recharge [phoneNumber=" + phoneNumber + ", provider=" + provider + ", selectedPlan=" + selectedPlan + ", planAmount=" + planAmount + "]";
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

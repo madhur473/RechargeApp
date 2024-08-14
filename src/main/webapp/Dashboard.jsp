@@ -37,7 +37,7 @@
     <% if (session.getAttribute("Username") != null) { %>
         <a href="RechargeView.jsp">Recharge</a>
         <a href="FundTransfer.jsp">Fund Transfer</a>
-        <a href="Statement.jsp">Statement</a>
+		<a href="StatementController">Statement</a>
     <% } else { %>
         <a href="Login.jsp">Recharge</a>
         <a href="Login.jsp">Fund Transfer</a>

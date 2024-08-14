@@ -112,28 +112,27 @@ public class RegisterDaoImp implements RegisterDao {
 	    }
 	
 	@Override
-	public int createRecharge(List<Recharge> relst) {
-		int i=0;
-		Connection con=DBConnection.myConnection();
-		Recharge remodel=relst.get(0);
-		
-		// Assuming you have established a connection named "con"
-		try {
-			PreparedStatement pstate = con.prepareStatement("INSERT INTO RechargeDetails (phoneNumber, provider, selectedPlan, planAmount) VALUES (?, ?, ?, ?)");
-			pstate.setString(1, remodel.getPhoneNumber());
-			pstate.setString(2, remodel.getProvider());
-			pstate.setString(3, remodel.getSelectedPlan());
-			pstate.setFloat(4, remodel.getPlanAmount());
+	public int createRecharge(List<Recharge> relst, int accountNumber) {
+	    int i = 0;
+	    Connection con = DBConnection.myConnection();
+	    Recharge remodel = relst.get(0);
+	    
+	    try {
+	        PreparedStatement pstate = con.prepareStatement("INSERT INTO RechargeDetails (accountNumber, phoneNumber, provider, selectedPlan, planAmount) VALUES (?, ?, ?, ?, ?)");
+	        pstate.setInt(1, accountNumber);
+	        pstate.setString(2, remodel.getPhoneNumber());
+	        pstate.setString(3, remodel.getProvider());
+	        pstate.setString(4, remodel.getSelectedPlan());
+	        pstate.setFloat(5, remodel.getPlanAmount());
 
-			i = pstate.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	        i = pstate.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-		
-		return i;
+	    return i;
 	}
+
 	@Override
 		 public boolean updateAccountBalance(float accountBalance, int AccountNumber) {
 		        boolean updated = false;
@@ -231,9 +230,7 @@ public class RegisterDaoImp implements RegisterDao {
 	        result = pstate.executeQuery();
 	        
 	        while (result.next()) {
-	            // Create a new Register object for each record and add it to the list
-//	            lst.add(new Register(result.getInt(1), result.getString(2), result.getString(3), result.getString(4), result.getFloat(5)));
-	        }
+	           }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
@@ -293,6 +290,13 @@ public class RegisterDaoImp implements RegisterDao {
             pstate = con.prepareStatement("UPDATE RechargeApp SET accBal = accBal + ? WHERE accNumber = ?");
             pstate.setFloat(1, amount);
             pstate.setInt(2, toAccount);
+            pstate.executeUpdate();
+            
+            // Insert transaction record
+            pstate = con.prepareStatement("INSERT INTO FundTransfers (fromAccount, toAccount, amount) VALUES (?, ?, ?)");
+            pstate.setInt(1, fromAccount);
+            pstate.setInt(2, toAccount);
+            pstate.setFloat(3, amount);
             pstate.executeUpdate();
 
             con.commit(); // Commit transaction
@@ -355,8 +359,7 @@ public class RegisterDaoImp implements RegisterDao {
 
         try {
             con = DBConnection.myConnection();
-            // Ensure the SQL query includes columns for 'fromAccount', 'toAccount', and 'amount'
-            pstate = con.prepareStatement("SELECT fromAccount, toAccount, amount FROM  WHERE fromAccount = ? OR toAccount = ? ORDER BY transferDate DESC");
+            pstate = con.prepareStatement("SELECT fromAccount, toAccount, amount FROM FundTransfers WHERE fromAccount = ? OR toAccount = ? ORDER BY transferDate DESC");
             pstate.setInt(1, accountNumber);
             pstate.setInt(2, accountNumber);
             result = pstate.executeQuery();
@@ -393,7 +396,7 @@ public class RegisterDaoImp implements RegisterDao {
         try {
             con = DBConnection.myConnection();
             // Ensure the SQL query includes the 'selectedPlan' column if it exists
-            pstate = con.prepareStatement("SELECT phoneNumber, provider, selectedPlan, planAmount FROM Recharges WHERE accountNumber = ? ORDER BY rechargeDate DESC");
+            pstate = con.prepareStatement("SELECT phoneNumber, provider, selectedPlan, planAmount FROM RechargeDetails WHERE accountNumber = ?");
             pstate.setInt(1, accountNumber);
             result = pstate.executeQuery();
 

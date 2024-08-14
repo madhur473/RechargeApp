@@ -16,7 +16,7 @@ public interface RegisterDao {
 	int updateRecord(List<Register> lst);
 	List<Register> retriveRecord(int accNumber);
 	List<Register> displayAll();
-	int createRecharge(List<Recharge> relst);
+	int createRecharge(List<Recharge> relst, int accountNumber);
 	boolean updateAccountBalance(float accountBalance, int AccountNumber);
 	Register retrieveUserByUsername(String username);
     boolean transferFunds(int fromAccount, int toAccount, float amount);

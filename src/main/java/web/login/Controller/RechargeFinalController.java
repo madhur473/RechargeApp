@@ -49,6 +49,7 @@ public class RechargeFinalController extends HttpServlet {
 
 	    String phoneNumber = (String) session.getAttribute("phone");
 	    String provider = (String) session.getAttribute("provider");
+	    System.out.println(phoneNumber);
 	    float accountBalance = Float.parseFloat(session.getAttribute("accountBalance").toString());
 	    int AccountNumber = Integer.parseInt(session.getAttribute("AccountNumber").toString());
 
@@ -102,7 +103,7 @@ public class RechargeFinalController extends HttpServlet {
 	   
 	    RegisterDao redao =new RegisterDaoImp();
 		
-		int r=redao.createRecharge(relst);
+		int r=redao.createRecharge(relst, AccountNumber);
 
 	    // Deduct the plan amount from the account balance
 	    accountBalance -= planAmount;

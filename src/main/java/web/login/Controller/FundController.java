@@ -38,8 +38,7 @@ public class FundController extends HttpServlet {
         if (transferSuccess) {
             // Update session balance attribute after transfer
             float newBalance = dao.getAccountBalance(fromAccount); // Assuming you have this method in DAO
-            session.setAttribute("accountBalance", newBalance);
-            
+            session.setAttribute("accountBalance", newBalance);            
             request.getRequestDispatcher("transferSuccess.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Transfer failed. Please check the account details and balance.");

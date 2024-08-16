@@ -159,93 +159,11 @@ public class RegisterDaoImp implements RegisterDao {
 		        return updated;
 		    
     }
-	@Override
-	public int deleteRecord(int accNumber) {
-		Connection con=DBConnection.myConnection();
-		int i=0;
 
-		try {
-			PreparedStatement pstate=con.prepareStatement("delete from bank where acc_number=?");
-			pstate.setInt(1, accNumber);
-			i=pstate.executeUpdate();
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return i;
-	}
 
-	@Override
-	public int updateRecord(List<Register> lst) {
-		Connection con=DBConnection.myConnection();
-		con=DBConnection.myConnection();
-		for(Register b:lst)
-		{
-			try {
-				PreparedStatement pstate=con.prepareStatement("update bank set acc_bal=? where acc_number=?");
-				pstate.setInt(2, b.getAccNumber());
-				pstate.setFloat(1, b.getAccBal());
-				int result=pstate.executeUpdate();
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return 0;
-	}
 
-	@Override
-	public List<Register> retriveRecord(int accNumber) {
-		List<Register> lst=null;
-		Connection con=DBConnection.myConnection();
-		
-		try {
-			PreparedStatement pstate=con.prepareStatement("Select * from bank where acc_Number=?");
-			pstate.setInt(1, accNumber);
-			result=pstate.executeQuery();
-			lst=new ArrayList<Register>();
-			if(result.next())
-			{
-				System.out.println("Result found.....");
-				//lst.add(new Register(result.getInt(1),result.getString(2),result.getString(3),result.getString(4),result.getFloat(5)));
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lst;
-	}
 
-	@Override
-	public List<Register> displayAll() {
-	    List<Register> lst = new ArrayList<>();
-	    Connection con = DBConnection.myConnection();
-	    ResultSet result = null; // Initialize ResultSet
-	    
-	    try {
-	        PreparedStatement pstate = con.prepareStatement("SELECT * FROM RechargeApp");
-	        result = pstate.executeQuery();
-	        
-	        while (result.next()) {
-	           }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        // Close ResultSet, PreparedStatement, and Connection
-	        try {
-	            if (result != null) result.close();
-	            if (pstate != null) pstate.close();
-	            if (con != null) con.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	    return lst;
-	}
+
 	
 	
 	public boolean transferFunds(int fromAccount, int toAccount, float amount) {
@@ -423,13 +341,4 @@ public class RegisterDaoImp implements RegisterDao {
         return rechargeList;
     }
 
-	@Override
-	public List<Transaction> getTransactionHistory(int accountNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-    
-
- 	
 }
